@@ -1,0 +1,13 @@
+{
+    "ignore": [
+        ".git/*",
+        "README.md",
+        ".gitattributes",
+        ".gitignore"
+    ],
+    "tags": [
+        "fun"
+    ],
+    "title": "[TTT2] Deathgrip",
+    "type": "tool"
+}
