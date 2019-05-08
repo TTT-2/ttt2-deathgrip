@@ -104,6 +104,10 @@ local function OnPlayerDeath(ply, inflictor, attacker)
 		MsgN("[TTT2][DeathGrip] Reset DeathGrip after death...")
 		ResetDeathGrip()
 	end
+
+	if #util.GetAlivePlayers() <= 3 then
+		ResetDeathGrip()
+	end
 end
 hook.Add("PlayerDisconnected", "TTT2RemoveDeathGrip", OnPlayerDisconnected)
 hook.Add("TTTBeginRound", "TTT2DeathGripSelectPlayers", SelectDeathgripPlayers)
