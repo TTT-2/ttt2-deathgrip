@@ -88,7 +88,7 @@ end
 
 local function OnPlayerDeath(ply, inflictor, attacker)
 	if ply.DeathGripPartner ~= nil and IsValid(ply.DeathGripPartner) then
-		if ply.DeathGripPartner:IsTerror() and ( attacker:IsPlayer() or inflictor:IsPlayer() ) and attacker ~= play and inflictor ~= ply then
+		if ply.DeathGripPartner:IsTerror() and ( attacker:IsPlayer() or inflictor:IsPlayer() ) and attacker ~= ply and inflictor ~= ply then
 
 			-- kill the other player
 			local dmginfo = DamageInfo()
