@@ -3,16 +3,6 @@ util.AddNetworkString("TTT2DeathgripPartner")
 util.AddNetworkString("TTT2DeathgripAnnouncementDeath")
 util.AddNetworkString("TTT2DeathgripReset")
 
-local deathgrip_enabled = CreateConVar("ttt2_deathgrip", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-local deathgrip_min_players = CreateConVar("ttt2_deathgrip_min_players", "4", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-local deathgrip_chance = CreateConVar("ttt2_deathgrip_chance", "0.5", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
-
-hook.Add("TTT2SyncGlobals", "TTT2DeathgripSyncGlobals", function()
-	SetGlobalBool("ttt2_deathgrip", deathgrip_enabled:GetBool())
-	SetGlobalInt("ttt2_deathgrip_min_players", deathgrip_min_players:GetInt())
-	SetGlobalFloat("ttt2_deathgrip_chance", deathgrip_chance:GetFloat())
-end)
-
 local function ResetDeathGrip()
 	local plys = player.GetAll()
 	for _, v in ipairs(plys) do
@@ -23,20 +13,12 @@ local function ResetDeathGrip()
 	net.Broadcast()
 end
 
-cvars.AddChangeCallback(deathgrip_enabled:GetName(), function(name, old, new)
+cvars.AddChangeCallback("ttt2_deathgrip", function(name, old, new)
 	SetGlobalBool(name, tobool(new))
 	if tobool(new) == false then
 		ResetDeathGrip()
 	end
 end, "TTT2DeathGripEnabledChange")
-
-cvars.AddChangeCallback(deathgrip_min_players:GetName(), function(name, old, new)
-	SetGlobalInt(name, new)
-end, "TTT2DeathGripMinPlayersChange")
-
-cvars.AddChangeCallback(deathgrip_chance:GetName(), function(name, old, new)
-	SetGlobalFloat(name, new)
-end, "TTT2DeathGripChanceChange")
 
 local function NotifyPlayerDeathgrip(ply)
 	net.Start("TTT2DeathgripPartner")
@@ -55,14 +37,15 @@ local function AnnounceDeathgripDeath()
 end
 
 local function SelectDeathgripPlayers()
-	if not TTT2 or not GetGlobalBool("ttt2_deathgrip", false) or math.random(0, 1) < GetGlobalFloat("ttt2_deathgrip_chance", 0.5) then return end
+	if not TTT2 or not GetConVar("ttt2_deathgrip"):GetBool() then return end
+	if math.random(0, 1) > GetConVar("ttt2_deathgrip_chance"):GetFloat() then return end
 
 	local players = util.GetFilteredPlayers(function (ply)
 		return ply:IsTerror() and (not SHINIGAMI or not ply:IsShinigami())
 	end)
 
 	-- minimum 2 players to work
-	if #players < 2 or #players < GetGlobalInt("ttt2_deathgrip_min_players", 4) then return end
+	if #players < 2 or #players < GetConVar("ttt2_deathgrip_min_players"):GetInt() then return end
 
 	local p1index = math.random(1, #players)
 	local p1 = players[p1index]
@@ -109,7 +92,7 @@ local function OnPlayerDeath(ply, inflictor, attacker)
 		ResetDeathGrip()
 	end
 
-	if #util.GetAlivePlayers() <= 3 then -- TODO
+	if #util.GetAlivePlayers() <= GetConVar("ttt2_deathgrip_reset_min_players"):GetInt() then
 		ResetDeathGrip()
 	end
 end

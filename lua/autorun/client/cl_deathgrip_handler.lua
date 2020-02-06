@@ -18,6 +18,7 @@ net.Receive("TTT2DeathgripReset", DeathGripReset)
 
 local function DeathGripPartner()
 	local partner = net.ReadEntity()
+
 	if partner ~= nil and partner ~= "NULL" then
 		LocalPlayer().DeathGripPartner = partner
 		MsgN("[TTT2][DeathGrip] You were selected by the DeathGrip. And your soul was bound to " .. partner:Nick())
