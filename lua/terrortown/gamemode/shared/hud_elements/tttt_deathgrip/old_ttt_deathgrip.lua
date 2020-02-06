@@ -4,7 +4,7 @@ DEFINE_BASECLASS(base)
 
 HUDELEMENT.Base = base
 
-if CLIENT then -- CLIENT
+if CLIENT then
 	function HUDELEMENT:PreInitialize()
 		BaseClass.PreInitialize(self)
 

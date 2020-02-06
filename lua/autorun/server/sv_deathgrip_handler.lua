@@ -66,7 +66,9 @@ local function SelectDeathgripPlayers()
 
 	local p1index = math.random(1, #players)
 	local p1 = players[p1index]
+
 	table.remove(players, p1index)
+
 	local p2index = math.random(1, #players)
 	local p2 = players[p2index]
 
@@ -87,28 +89,31 @@ local function OnPlayerDisconnected(ply)
 end
 
 local function OnPlayerDeath(ply, inflictor, attacker)
-	if ply.DeathGripPartner ~= nil and IsValid(ply.DeathGripPartner) then
+	if not ply.DeathGripPartner and IsValid(ply.DeathGripPartner) then
 		if ply.DeathGripPartner:IsTerror() and ( attacker:IsPlayer() or inflictor:IsPlayer() ) and attacker ~= ply and inflictor ~= ply then
 
 			-- kill the other player
 			local dmginfo = DamageInfo()
-		    dmginfo:SetDamage(10000)
-		    dmginfo:SetAttacker(game.GetWorld())
-		    dmginfo:SetDamageType(DMG_GENERIC)
-		    ply.DeathGripPartner:TakeDamageInfo(dmginfo)
+			dmginfo:SetDamage(10000)
+			dmginfo:SetAttacker(game.GetWorld())
+			dmginfo:SetDamageType(DMG_GENERIC)
+			ply.DeathGripPartner:TakeDamageInfo(dmginfo)
 
 			MsgN("[TTT2][DeathGrip] Killed the DeathGrip Partner.")
 
 			AnnounceDeathgripDeath()
 		end
+
 		MsgN("[TTT2][DeathGrip] Reset DeathGrip after death...")
+
 		ResetDeathGrip()
 	end
 
-	if #util.GetAlivePlayers() <= 3 then
+	if #util.GetAlivePlayers() <= 3 then -- TODO
 		ResetDeathGrip()
 	end
 end
+
 hook.Add("PlayerDisconnected", "TTT2RemoveDeathGrip", OnPlayerDisconnected)
 hook.Add("TTTBeginRound", "TTT2DeathGripSelectPlayers", SelectDeathgripPlayers)
 hook.Add("TTTPrepareRound", "TTT2DeathGripReset", ResetDeathGrip)

@@ -1,4 +1,6 @@
-if SERVER then resource.AddFile("materials/vgui/ttt/icon_deathgrip.vmt") end
+if SERVER then
+	resource.AddFile("materials/vgui/ttt/icon_deathgrip.vmt")
+end
 
 local base = "pure_skin_target"
 
@@ -7,8 +9,7 @@ DEFINE_BASECLASS(base)
 HUDELEMENT.Base = base
 HUDELEMENT.icon = Material("vgui/ttt/icon_deathgrip")
 
-if CLIENT then -- CLIENT
-
+if CLIENT then
 	function HUDELEMENT:PreInitialize()
 		BaseClass.PreInitialize(self)
 
