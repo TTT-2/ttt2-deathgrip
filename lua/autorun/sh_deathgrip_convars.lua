@@ -10,49 +10,6 @@ hook.Add("TTTUlxInitCustomCVar", "TTTDeathgripInitRWCVar", function(name)
 	ULib.replicatedWritableCvar("ttt2_deathgrip_chance", "rep_ttt2_deathgrip_chance", GetConVar("ttt2_deathgrip_chance"):GetFloat(), true, false, name)
 end)
 
---[[
-if SERVER then
-	-- ConVar replication is broken in GMod, so we do this, at least Alf added a hook!
-	-- I don't like it any more than you do, dear reader. Copycat!
-	hook.Add("TTT2SyncGlobals", "ttt2_supersoda_sync_convars", function()
-		SetGlobalFloat("ttt_soda_total_spawn_amount", GetConVar("ttt_soda_total_spawn_amount"):GetInt())
-		SetGlobalBool("ttt_soda_limit_one_per_player", GetConVar("ttt_soda_limit_one_per_player"):GetBool())
-		SetGlobalFloat("ttt_soda_speedup", GetConVar("ttt_soda_speedup"):GetFloat())
-		SetGlobalFloat("ttt_soda_rageup", GetConVar("ttt_soda_rageup"):GetFloat())
-		SetGlobalFloat("ttt_soda_shootup", GetConVar("ttt_soda_shootup"):GetFloat())
-		SetGlobalFloat("ttt_soda_armorup", GetConVar("ttt_soda_armorup"):GetInt())
-		SetGlobalFloat("ttt_soda_healup", GetConVar("ttt_soda_healup"):GetInt())
-		SetGlobalFloat("ttt_soda_creditup", GetConVar("ttt_soda_creditup"):GetInt())
-	end)
-
-	-- sync convars on change
-	cvars.AddChangeCallback("ttt_soda_total_spawn_amount", function(cv, old, new)
-		SetGlobalInt("ttt_soda_total_spawn_amount", tonumber(new))
-	end)
-	cvars.AddChangeCallback("ttt_soda_limit_one_per_player", function(cv, old, new)
-		SetGlobalBool("ttt_soda_limit_one_per_player", tobool(tonumber(new)))
-	end)
-	cvars.AddChangeCallback("ttt_soda_speedup", function(cv, old, new)
-		SetGlobalFloat("ttt_soda_speedup", tonumber(new))
-	end)
-	cvars.AddChangeCallback("ttt_soda_rageup", function(cv, old, new)
-		SetGlobalFloat("ttt_soda_rageup", tonumber(new))
-	end)
-	cvars.AddChangeCallback("ttt_soda_shootup", function(cv, old, new)
-		SetGlobalFloat("ttt_soda_shootup", tonumber(new))
-	end)
-	cvars.AddChangeCallback("ttt_soda_armorup", function(cv, old, new)
-		SetGlobalFloat("ttt_soda_armorup", tonumber(new))
-	end)
-	cvars.AddChangeCallback("ttt_soda_healup", function(cv, old, new)
-		SetGlobalFloat("ttt_soda_healup", tonumber(new))
-	end)
-	cvars.AddChangeCallback("ttt_soda_creditup", function(cv, old, new)
-		SetGlobalFloat("ttt_soda_creditup", tonumber(new))
-	end)
-end
-]]
-
 if CLIENT then
 	hook.Add("TTTUlxModifyAddonSettings", "TTTDeathgripModifySettings", function(name)
 		local tttrspnl = xlib.makelistlayout{w = 415, h = 318, parent = xgui.null}
