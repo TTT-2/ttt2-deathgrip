@@ -38,6 +38,7 @@ end
 
 local function SelectDeathgripPlayers()
 	if not TTT2 or not GetConVar("ttt2_deathgrip"):GetBool() then return end
+	math.randomseed(os.time())
 	if math.random(0, 1) > GetConVar("ttt2_deathgrip_chance"):GetFloat() then return end
 
 	local players = util.GetFilteredPlayers(function (ply)
