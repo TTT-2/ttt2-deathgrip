@@ -94,7 +94,7 @@ local function OnPlayerDeath(ply, inflictor, attacker)
 		ResetDeathGrip()
 	end
 
-	if #util.GetAlivePlayers() <= GetConVar("ttt2_deathgrip_reset_min_players"):GetInt() then
+	if (#util.GetAlivePlayers() - 1) <= GetConVar("ttt2_deathgrip_reset_min_players"):GetInt() then
 		ResetDeathGrip()
 	end
 end
