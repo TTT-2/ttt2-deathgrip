@@ -44,7 +44,7 @@ local function SelectDeathgripPlayers()
 	if math.Rand(0, 1) > GetConVar("ttt2_deathgrip_chance"):GetFloat() then return end
 
 	local players = util.GetFilteredPlayers(function (ply)
-		return ply:IsTerror() and (not SHINIGAMI or not ply:IsShinigami()) and (not HITMAN or not ply:IsRole(ROLE_HITMAN))
+		return ply:IsTerror() and (not SHINIGAMI or not ply:IsRole(ROLE_SHINIGAMI)) and (not HITMAN or not ply:IsRole(ROLE_HITMAN))
 	end)
 
 	-- minimum 2 players to work
