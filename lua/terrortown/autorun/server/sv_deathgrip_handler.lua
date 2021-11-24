@@ -1,3 +1,8 @@
+local cvDeathgrip = CreateConVar("ttt2_deathgrip", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+local cvDeathgripMinPlayers = CreateConVar("ttt2_deathgrip_min_players", "4", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+local cvDeathgripMinResetPlayers = CreateConVar("ttt2_deathgrip_reset_min_players", "3", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+local cvDeathgripChance = CreateConVar("ttt2_deathgrip_chance", "0.5", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
+
 util.AddNetworkString("TTT2DeathgripAnnouncement")
 util.AddNetworkString("TTT2DeathgripPartner")
 util.AddNetworkString("TTT2DeathgripAnnouncementDeath")
@@ -37,18 +42,18 @@ local function AnnounceDeathgripDeath()
 end
 
 local function SelectDeathgripPlayers()
-	if not TTT2 or not GetConVar("ttt2_deathgrip"):GetBool() then return end
+	if not cvDeathgrip:GetBool() then return end
 
-	math.randomseed(os.time())
-
-	if math.Rand(0, 1) > GetConVar("ttt2_deathgrip_chance"):GetFloat() then return end
+	if math.Rand(0, 1) > cvDeathgripChance:GetFloat() then return end
 
 	local players = util.GetFilteredPlayers(function (ply)
-		return ply:IsTerror() and (not SHINIGAMI or not ply:IsRole(ROLE_SHINIGAMI)) and (not HITMAN or not ply:IsRole(ROLE_HITMAN))
+		return ply:IsTerror()
+			and (not SHINIGAMI or not ply:IsRole(ROLE_SHINIGAMI))
+			and (not HITMAN or not ply:IsRole(ROLE_HITMAN))
 	end)
 
 	-- minimum 2 players to work
-	if #players < 2 or #players < GetConVar("ttt2_deathgrip_min_players"):GetInt() then return end
+	if #players < 2 or #players < cvDeathgripMinPlayers:GetInt() then return end
 
 	local p1index = math.random(1, #players)
 	local p1 = players[p1index]
@@ -96,7 +101,7 @@ local function OnPlayerDeath(ply, inflictor, attacker)
 		ResetDeathGrip()
 	end
 
-	if (#util.GetAlivePlayers() - 1) <= GetConVar("ttt2_deathgrip_reset_min_players"):GetInt() then
+	if (#util.GetAlivePlayers() - 1) <= cvDeathgripMinResetPlayers:GetInt() then
 		ResetDeathGrip()
 	end
 end
