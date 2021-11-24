@@ -3,9 +3,7 @@ local cvDeathgripMinPlayers = CreateConVar("ttt2_deathgrip_min_players", "4", {F
 local cvDeathgripMinResetPlayers = CreateConVar("ttt2_deathgrip_reset_min_players", "3", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 local cvDeathgripChance = CreateConVar("ttt2_deathgrip_chance", "0.5", {FCVAR_NOTIFY, FCVAR_ARCHIVE})
 
-util.AddNetworkString("TTT2DeathgripAnnouncement")
 util.AddNetworkString("TTT2DeathgripPartner")
-util.AddNetworkString("TTT2DeathgripAnnouncementDeath")
 util.AddNetworkString("TTT2DeathgripReset")
 
 local function ResetDeathGrip()
@@ -32,13 +30,11 @@ local function NotifyPlayerDeathgrip(ply)
 end
 
 local function AnnounceDeathgrip()
-	net.Start("TTT2DeathgripAnnouncement")
-	net.Broadcast()
+	LANG.MsgAll("deathgrip_info_start", nil, MSG_MSTACK_PLAIN)
 end
 
 local function AnnounceDeathgripDeath()
-	net.Start("TTT2DeathgripAnnouncementDeath")
-	net.Broadcast()
+	LANG.MsgAll("deathgrip_info_death", nil, MSG_MSTACK_WARN)
 end
 
 local function SelectDeathgripPlayers()
