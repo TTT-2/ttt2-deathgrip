@@ -1,10 +1,10 @@
 CLGAMEMODESUBMENU.base = "base_gamemodesubmenu"
 
 CLGAMEMODESUBMENU.priority = 0
-CLGAMEMODESUBMENU.title = "submenu_addons_pointer_title"
+CLGAMEMODESUBMENU.title = "submenu_server_addons_deathgrip_title"
 
 function CLGAMEMODESUBMENU:Populate(parent)
-	local form = vgui.CreateTTT2Form(parent, "header_addons_pointer")
+	local form = vgui.CreateTTT2Form(parent, "header_addons_deathgrip")
 
 	local masterEnb = form:MakeCheckBox({
 		serverConvar = "ttt2_deathgrip",

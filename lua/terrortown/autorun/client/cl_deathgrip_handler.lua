@@ -1,7 +1,11 @@
 local function DeathGripReset()
-	LocalPlayer().DeathGripPartner = nil
+	local client = LocalPlayer()
 
-	LANG.ProcessMsg("deathgrip_info_reset", nil, MSG_MSTACK_WARN)
+	if client.DeathGripPartner then
+		client.DeathGripPartner = nil
+
+		LANG.ProcessMsg("deathgrip_info_reset", nil, MSG_MSTACK_WARN)
+	end
 end
 net.Receive("TTT2DeathgripReset", DeathGripReset)
 
